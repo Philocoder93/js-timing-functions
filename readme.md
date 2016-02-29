@@ -79,7 +79,7 @@ $("#start").click(function(){
   if(!timer) timer = setInterval(sayHi, 1000);
 });
 $("#stop").click(function(){
-  if(timer) clearInterval(timer);
+  clearInterval(timer);
 });
 ```
 
