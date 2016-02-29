@@ -68,6 +68,21 @@ $("#stop").click(function(){
 });
 ```
 
+### The same code, streamlined
+
+```js
+var timer;
+function sayHi(){
+  console.log("hi");
+}
+$("#start").click(function(){
+  if(!timer) timer = setInterval(sayHi, 1000);
+});
+$("#stop").click(function(){
+  if(timer) clearInterval(timer);
+});
+```
+
 # Common Errors
 
 ```js
