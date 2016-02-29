@@ -1,20 +1,20 @@
 # Timing Functions
 
-- `setInterval`: Returns a new "timer" object. Side-effect: starts the timer.
-- `clearInterval`: Stops a timer object.
+- `setInterval`: Returns the ID of a new timer. Side-effect: starts the timer.
+- `clearInterval`: Stops the timer with the given ID.
 
 ## The wrong way:
 
 ```js
-var stopwatchBucket;
+var currentTimerID;
 function sayHi(){
   console.log("hi");
 }
 $("#start").click(function(){
-  stopwatchBucket = setInterval(sayHi, 1000);
+  currentTimerID = setInterval(sayHi, 1000);
 });
 $("#stop").click(function(){
-  clearInterval(stopwatchBucket);
+  clearInterval(currentTimerID);
 });
 ```
 
@@ -30,7 +30,7 @@ So if you press the "start" button 50 times, and then press "stop", it'll only r
 
 ### What's happening
 
-`stopwatchBucket = setInterval(sayHi, 1000)` is overwriting the current value of the `stopwatchBucket` variable. It's exactly the same as this:
+`currentTimerID = setInterval(sayHi, 1000)` is overwriting the current value of the `currentTimerID` variable. It's exactly the same as this:
 
 ```js
 var name = "Alice";
@@ -40,46 +40,23 @@ console.log(name);
 // prints "Carol"
 ```
 
-`clearInterval(stopwatchBucket)` is stopping whatever timer is currently in the `stopwatchBucket` variable. There is only ever one timer at a time in the variable. To have multiple, it would need to be an array.
+`clearInterval(currentTimerID)` is stopping whatever timer has the ID currently held by the `currentTimerID` variable. There is only ever one timer ID at a time in the variable. To have multiple, it would need to be an array.
 
 ## The right way:
 
 ```js
-var stopwatchBucket = null;
+var currentTimerID = null;
 function sayHi(){
   console.log("hi");
 }
 $("#start").click(function(){
-  if(stopwatchBucket === null){
-    console.log("Creating a new stopwatch and putting it in the bucket!");
-    stopwatchBucket = setInterval(sayHi, 1000);
-  }else{
-    console.log("Not doing anything because there's already a stopwatch in the bucket.");
+  if(currentTimerID === null){
+    currentTimerID = setInterval(sayHi, 1000);
   }
 });
 $("#stop").click(function(){
-  if(stopwatchBucket !== null){
-    console.log("Stopping whatever's in the bucket, and emptying the bucket.");
-    clearInterval(stopwatchBucket);
-    stopwatchBucket = null;
-  }else{
-    console.log("Not doing anything because there's nothing in the bucket.");
-  }
-});
-```
-
-### The same code, streamlined
-
-```js
-var timer;
-function sayHi(){
-  console.log("hi");
-}
-$("#start").click(function(){
-  if(!timer) timer = setInterval(sayHi, 1000);
-});
-$("#stop").click(function(){
-  clearInterval(timer);
+  clearInterval(currentTimerID);
+  currentTimerID = null;
 });
 ```
 
