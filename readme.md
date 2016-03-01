@@ -1,4 +1,4 @@
-# Timing Functions
+Timing Functions
 
 - `setInterval`: Returns the ID of a new timer. Side-effect: starts the timer.
 - `clearInterval`: Stops the timer with the given ID.
@@ -80,4 +80,6 @@ clearInterval(sayHi);
 
 You must pass the timer object itself into `clearInterval` -- not the function the timer object is running.
 
+# Note
 
+In most browsers, intervals can actually only be spaced at a minimum of 4ms. If you try to run something every 1ms, it'll run every 4. [More information](http://ejohn.org/blog/how-javascript-timers-work/)
